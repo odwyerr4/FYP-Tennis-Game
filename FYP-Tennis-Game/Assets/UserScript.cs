@@ -5,10 +5,12 @@ using UnityEngine;
 public class UserScript : MonoBehaviour
 {
     public Transform aimTarget;
-    float moveSpeed = 2f;
-    public float targetX;
-    public float targetY;
-
+    public Transform ball;
+    public Transform user;
+    public Transform racquetHead;
+    float moveSpeed = 3f;
+    float hitForce = 12;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -18,24 +20,25 @@ public class UserScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float upAndDown = Input.GetAxisRaw("Horizontal");
-        float sideToSide = Input.GetAxisRaw("Vertical");
+        float sideToSide = Input.GetAxisRaw("Horizontal");   //for horizontal movements
+        float upAndDown = Input.GetAxisRaw("Vertical");    //for vertical movements
 
-        if((upAndDown != 0) || (sideToSide != 0))
+        if((upAndDown != 0) || (sideToSide != 0))   //if we are pressing to move
         {
-            transform.Translate(new Vector3(sideToSide, 0, upAndDown) * moveSpeed * Time.deltaTime);
+            user.Translate(new Vector3(upAndDown, 0, sideToSide) * moveSpeed * Time.deltaTime);    //move user
         }
 
-        if(Input.GetKeyDown(KeyCode.I))
+        Vector3 ballDirection = ball.position - racquetHead.position;     //gets position of ball relative to user
+        
+        Debug.DrawRay(racquetHead.position, ballDirection);               //draws ray from ball to user
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("Ball"))    //if other collides with ball
         {
-            targetX = targetX - 0.2f;
-            aimTarget.Translate(new Vector3(targetY, 0, targetX));
+            Vector3 dir = aimTarget.position - user.position;  //direction of the ball is the target minus where the ball is hit from
+            other.GetComponent<Rigidbody>().velocity = dir.normalized * hitForce + new Vector3(0, 5, 0);    //the velocity of the ball
         }
-        else if(Input.GetKeyDown(KeyCode.K))
-        {
-            targetX = targetX + 0.2f;
-            aimTarget.Translate(new Vector3(targetY, 0, targetX));
-        }
-        Debug.Log(targetX);
     }
 }
