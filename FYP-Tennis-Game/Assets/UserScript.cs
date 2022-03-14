@@ -10,11 +10,15 @@ public class UserScript : MonoBehaviour
     public Transform racquetHead;
     float moveSpeed = 3f;
     float hitForce = 12;
+
+    ShotTypes shotTypes;
+    Shot currentShot;
     
     // Start is called before the first frame update
     void Start()
     {
-        
+        shotTypes = GetComponent<ShotTypes>();
+        currentShot = shotTypes.serve;
     }
 
     // Update is called once per frame
@@ -31,6 +35,19 @@ public class UserScript : MonoBehaviour
         Vector3 ballDirection = ball.position - racquetHead.position;     //gets position of ball relative to user
         
         Debug.DrawRay(racquetHead.position, ballDirection);               //draws ray from ball to user
+
+        if(ballDirection.y > 1)
+        {
+            currentShot = shotTypes.serve;
+        }
+        else if(ballDirection.z < user.position.z)
+        {
+            currentShot = shotTypes.flatShot;
+        }
+        else
+        {
+            currentShot = shotTypes.topSpin;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -38,7 +55,7 @@ public class UserScript : MonoBehaviour
         if(other.CompareTag("Ball"))    //if other collides with ball
         {
             Vector3 dir = aimTarget.position - user.position;  //direction of the ball is the target minus where the ball is hit from
-            other.GetComponent<Rigidbody>().velocity = dir.normalized * hitForce + new Vector3(0, 5, 0);    //the velocity of the ball
+            other.GetComponent<Rigidbody>().velocity = dir.normalized * currentShot.shotPower + new Vector3(0, currentShot.upForce, 0);    //the velocity of the ball
         }
     }
 }
