@@ -5,6 +5,9 @@ using UnityEngine;
 public class BallScript : MonoBehaviour
 {
     Vector3 initialPosition;
+    public string lastHitBy;
+    public int userScore;
+    public int AIScore;
     // Start is called before the first frame update
     void Start()
     {

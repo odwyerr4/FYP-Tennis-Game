@@ -9,16 +9,14 @@ public class UserScript : MonoBehaviour
     public Transform user;
     public Transform racquetHead;
     float moveSpeed = 3f;
-    float hitForce = 12;
-
     ShotTypes shotTypes;
     Shot currentShot;
     
     // Start is called before the first frame update
     void Start()
     {
-        shotTypes = GetComponent<ShotTypes>();
-        currentShot = shotTypes.serve;
+        shotTypes = GetComponent<ShotTypes>();  //initialise shotTypes
+        currentShot = shotTypes.serve;          //set start shot to serve
     }
 
     // Update is called once per frame
@@ -38,15 +36,15 @@ public class UserScript : MonoBehaviour
 
         if(ballDirection.y > 1)
         {
-            currentShot = shotTypes.serve;
+            currentShot = shotTypes.serve;          //if ball is above head, serve shot
         }
-        else if(ballDirection.z < user.position.z)
+        else if(ballDirection.z > user.position.z)     
         {
-            currentShot = shotTypes.flatShot;
+            currentShot = shotTypes.flatShot;       //if ball is to the left of user, flat shot
         }
         else
         {
-            currentShot = shotTypes.topSpin;
+            currentShot = shotTypes.topSpin;        //if ball is on the right of user, top spin
         }
     }
 
@@ -56,6 +54,7 @@ public class UserScript : MonoBehaviour
         {
             Vector3 dir = aimTarget.position - user.position;  //direction of the ball is the target minus where the ball is hit from
             other.GetComponent<Rigidbody>().velocity = dir.normalized * currentShot.shotPower + new Vector3(0, currentShot.upForce, 0);    //the velocity of the ball
+            ball.GetComponent<BallScript>().lastHitBy = "player";   //set ball was last hit by to player
         }
     }
 }
