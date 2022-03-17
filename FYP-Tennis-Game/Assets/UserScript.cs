@@ -34,15 +34,32 @@ public class UserScript : MonoBehaviour
         
         Debug.DrawRay(racquetHead.position, ballDirection);               //draws ray from ball to user
 
+        if(Input.GetKeyDown(KeyCode.C))                             //if C is pressed
+        {
+            currentShot = shotTypes.serve;                          //set current shot to serve
+            GetComponent<BoxCollider>().enabled = false;            //turn off collider to throw the ball up
+
+
+        }
+        else if(Input.GetKeyUp(KeyCode.C))                          //when C is released
+        {
+            currentShot = shotTypes.serve;
+            ball.transform.position = user.position + new Vector3(0, 1.5f, 0); //throw the ball up
+            GetComponent<BoxCollider>().enabled = true;                        //turn box collider back on
+        }
+
+        Vector3 ballToUser = ball.position - user.position;
+        Debug.Log(ballToUser.z);
+
         if(ballDirection.y > 1)
         {
             currentShot = shotTypes.serve;          //if ball is above head, serve shot
         }
-        else if(ballDirection.z > user.position.z)     
+        else if(ballToUser.z < 0)     
         {
-            currentShot = shotTypes.flatShot;       //if ball is to the left of user, flat shot
+            currentShot = shotTypes.backSpin;       //if ball is to the left of user, flat shot
         }
-        else
+        else if(ballToUser.z > 0)
         {
             currentShot = shotTypes.topSpin;        //if ball is on the right of user, top spin
         }
@@ -54,7 +71,12 @@ public class UserScript : MonoBehaviour
         {
             Vector3 dir = aimTarget.position - user.position;  //direction of the ball is the target minus where the ball is hit from
             other.GetComponent<Rigidbody>().velocity = dir.normalized * currentShot.shotPower + new Vector3(0, currentShot.upForce, 0);    //the velocity of the ball
-            ball.GetComponent<BallScript>().lastHitBy = "player";   //set ball was last hit by to player
+            ball.GetComponent<BallScript>().lastHitBy = "user";   //set ball was last hit by to: user
         }
+    }
+
+    void flatShotTorque()
+    {
+
     }
 }

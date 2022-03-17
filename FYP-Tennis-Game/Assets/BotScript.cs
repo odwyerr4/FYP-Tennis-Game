@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BotScript : MonoBehaviour
 {
-    float moveSpeed = 3f;
+    public float moveSpeed;
     float hitForce = 12;
     public float shotSpread;
     public Transform ball;
@@ -15,18 +16,37 @@ public class BotScript : MonoBehaviour
 
     ShotTypes shotTypes;
     Shot currentShot;
+    public GameObject easyToggle;
+    public GameObject mediumToggle;
+    public GameObject hardToggle;
 
     // Start is called before the first frame update
     void Start()
     {
         AIPlayerPosition = AI.position;         //set AI player position to AI start position
         shotTypes = GetComponent<ShotTypes>();  //initialise shotTypes
-        currentShot = shotTypes.flatShot;       //set current shot to flat shot
+        currentShot = shotTypes.topSpin;       //set current shot to top spin
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(easyToggle.GetComponent<Toggle>().isOn == true)                  //if easy difficulty selected
+        {
+            moveSpeed = 3;
+            shotSpread = 2;
+        }
+        else if(mediumToggle.GetComponent<Toggle>().isOn == true)           //if medium difficulty selected
+        {
+            moveSpeed = 4;
+            shotSpread = 2;
+        }
+        else if(hardToggle.GetComponent<Toggle>().isOn == true)             //if hard difficulty selected
+        {
+            moveSpeed = 6;
+            shotSpread = 3;
+        }
+
         MoveAI();
          if(ball.position.y > 1)
         {
@@ -34,7 +54,7 @@ public class BotScript : MonoBehaviour
         }
         else if(ball.position.z < user.position.z)     
         {
-            currentShot = shotTypes.flatShot;       //if ball is to the left of AI, flat shot
+            currentShot = shotTypes.backSpin;       //if ball is to the left of AI, flat shot
         }
         else
         {
