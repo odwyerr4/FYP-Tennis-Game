@@ -52,7 +52,7 @@ public class BotScript : MonoBehaviour
         {
             currentShot = shotTypes.serve;          //if ball is above head, serve shot
         }
-        else if(ball.position.z < user.position.z)     
+        else if(ball.position.x < user.position.x)     
         {
             currentShot = shotTypes.backSpin;       //if ball is to the left of AI, flat shot
         }
@@ -64,7 +64,7 @@ public class BotScript : MonoBehaviour
 
     void MoveAI()
     {
-        AIPlayerPosition.z = ball.position.z;       //set AI z position to ball z position
+        AIPlayerPosition.x = ball.position.x;       //set AI x position to ball x position
         AI.position = Vector3.MoveTowards(AI.position, AIPlayerPosition, moveSpeed * Time.deltaTime);   //AI moves side to side in the direction of the ball
     }
 
@@ -73,7 +73,7 @@ public class BotScript : MonoBehaviour
         if(other.CompareTag("Ball"))    //if other collides with ball
         {
             Vector3 dir = hitTarget.position - AI.position;  //direction of the ball is the target minus where the ball is hit from
-            if(user.position.z < 0)     //if user is on the left
+            if(user.position.x < 0)     //if user is on the left
             {
                 dir = dir + new Vector3(0, 0, shotSpread);     //hit right
             }else

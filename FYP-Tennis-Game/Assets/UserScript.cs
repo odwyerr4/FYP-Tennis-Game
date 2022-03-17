@@ -11,6 +11,7 @@ public class UserScript : MonoBehaviour
     float moveSpeed = 3f;
     ShotTypes shotTypes;
     Shot currentShot;
+    Rigidbody ball_rb;
     
     // Start is called before the first frame update
     void Start()
@@ -27,12 +28,14 @@ public class UserScript : MonoBehaviour
 
         if((upAndDown != 0) || (sideToSide != 0))   //if we are pressing to move
         {
-            user.Translate(new Vector3(upAndDown, 0, sideToSide) * moveSpeed * Time.deltaTime);    //move user
+            user.Translate(new Vector3(-upAndDown, 0, sideToSide) * moveSpeed * Time.deltaTime);    //move user
         }
 
         Vector3 ballDirection = ball.position - racquetHead.position;     //gets position of ball relative to user
         
         Debug.DrawRay(racquetHead.position, ballDirection);               //draws ray from ball to user
+
+        ball_rb = ball.GetComponent<Rigidbody>();                         //get rigidbody of ball
 
         if(Input.GetKeyDown(KeyCode.C))                             //if C is pressed
         {
@@ -48,18 +51,17 @@ public class UserScript : MonoBehaviour
             GetComponent<BoxCollider>().enabled = true;                        //turn box collider back on
         }
 
-        Vector3 ballToUser = ball.position - user.position;
-        Debug.Log(ballToUser.z);
+         Vector3 ballToUser = ball.position - user.position;                //get ball position relative to user
 
-        if(ballDirection.y > 1)
+        if(ballToUser.y > 1)
         {
             currentShot = shotTypes.serve;          //if ball is above head, serve shot
         }
-        else if(ballToUser.z < 0)     
+        else if(ballToUser.x < 0)     
         {
             currentShot = shotTypes.backSpin;       //if ball is to the left of user, flat shot
         }
-        else if(ballToUser.z > 0)
+        else if(ballToUser.x > 0)
         {
             currentShot = shotTypes.topSpin;        //if ball is on the right of user, top spin
         }
@@ -67,10 +69,33 @@ public class UserScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Vector3 ballToUserPos = ball.position - user.position;                //get ball position relative to user
+        Vector3 addTopSpin = aimTarget.position - user.position;           //get direction of the shot     
+        addTopSpin.y = 0;                                                  //set y vector to 0
+        addTopSpin = Quaternion.Euler(0, 90, 0) * addTopSpin;              //rotate y vector 90 degrees
+
+        Vector3 addBackSpin = aimTarget.position - user.position;           //get direction of the shot
+        addBackSpin.y = 0;                                                  //set y vector to 0
+        addBackSpin = Quaternion.Euler(0, -90, 0) * addBackSpin;            //rotate y vector -90 degrees
+
         if(other.CompareTag("Ball"))    //if other collides with ball
         {
             Vector3 dir = aimTarget.position - user.position;  //direction of the ball is the target minus where the ball is hit from
-            other.GetComponent<Rigidbody>().velocity = dir.normalized * currentShot.shotPower + new Vector3(0, currentShot.upForce, 0);    //the velocity of the ball
+            if(ballToUserPos.x < 0)
+            {
+                other.GetComponent<Rigidbody>().velocity = dir.normalized * currentShot.shotPower + new Vector3(0, currentShot.upForce, 0);    //the velocity of the ball
+                ball_rb.AddTorque(addBackSpin.normalized * 150 * Time.deltaTime, ForceMode.Impulse);    //add backspin to the ball
+            }
+            else if(ballToUserPos.x > 0)
+            {
+                other.GetComponent<Rigidbody>().velocity = dir.normalized * currentShot.shotPower + new Vector3(0, currentShot.upForce, 0);    //the velocity of the ball
+                ball_rb.AddTorque(addTopSpin.normalized * 150 * Time.deltaTime, ForceMode.Impulse);    //add topspin to the ball
+            }
+            else
+            {
+                other.GetComponent<Rigidbody>().velocity = dir.normalized * currentShot.shotPower + new Vector3(0, currentShot.upForce, 0);    //the velocity of the ball
+            }
+            
             ball.GetComponent<BallScript>().lastHitBy = "user";   //set ball was last hit by to: user
         }
     }
