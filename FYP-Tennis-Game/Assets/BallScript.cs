@@ -45,13 +45,13 @@ public class BallScript : MonoBehaviour
 
             if(lastHitBy == "user")
             {
-                AIScore++;
+                userScore++;
                 bouncedOnAISide = false;
                 bouncedOnUserSide = false;
             }
             else if(lastHitBy == "AI")
             {
-                userScore++;
+                AIScore++;
                 bouncedOnAISide = false;
                 bouncedOnUserSide = false;
             }
@@ -59,32 +59,32 @@ public class BallScript : MonoBehaviour
             updateScores();
         }
 
-        if((other.CompareTag("Out")) && (other.CompareTag("Wall") != true))      //if the ball lands out of bounds before hitting the wall...
+        if((other.CompareTag("Out") == true) && (other.CompareTag("Wall") != true))      //if the ball lands out of bounds before hitting the wall...
         {
             GetComponent<Rigidbody>().velocity = Vector3.zero;  //set the velocity of the ball to zero
             user.position = initialUserPosition;                //if the ball hits a wall set the user position back in initail position for serve
             
             if((lastHitBy == "user") && (bouncedOnAISide == true))
             {
-                userScore++;
+                AIScore++;
                 bouncedOnAISide = false;
                 bouncedOnUserSide = false;
             }
             else if((lastHitBy == "user") && (bouncedOnAISide == false))
             {
-                AIScore++;
+                userScore++;
                 bouncedOnAISide = false;
                 bouncedOnUserSide = false;
             }
             else if((lastHitBy == "AI") && (bouncedOnUserSide == true))
             {
-                AIScore++;
+                userScore++;
                 bouncedOnAISide = false;
                 bouncedOnUserSide = false;
             }
             else if((lastHitBy == "AI") && (bouncedOnUserSide == false))
             {
-                userScore++;
+                AIScore++;
                 bouncedOnAISide = false;
                 bouncedOnUserSide = false;
             }
@@ -92,32 +92,32 @@ public class BallScript : MonoBehaviour
             updateScores();
         }
 
-        if((other.CompareTag("Wall")) && (other.CompareTag("Out") != true))      //if the ball hits a wall without landing out...
+        if((other.CompareTag("Wall") == true) && (other.CompareTag("Out") != true))      //if the ball hits a wall without landing out...
         {
             GetComponent<Rigidbody>().velocity = Vector3.zero;  //set the velocity of the ball to zero
             user.position = initialUserPosition;                //if the ball hits a wall set the user position back in initail position for serve
             
             if((lastHitBy == "user") && (bouncedOnAISide == true))
             {
-                userScore++;
+                AIScore++;
                 bouncedOnAISide = false;
                 bouncedOnUserSide = false;
             }
             else if((lastHitBy == "user") && (bouncedOnAISide == false))
             {
-                AIScore++;
+                userScore++;
                 bouncedOnAISide = false;
                 bouncedOnUserSide = false;
             }
             else if((lastHitBy == "AI") && (bouncedOnUserSide == true))
             {
-                AIScore++;
+                userScore++;
                 bouncedOnAISide = false;
                 bouncedOnUserSide = false;
             }
             else if((lastHitBy == "AI") && (bouncedOnUserSide == false))
             {
-                userScore++;
+                AIScore++;
                 bouncedOnAISide = false;
                 bouncedOnUserSide = false;
             }

@@ -1,29 +1,23 @@
-/*using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BotScript : MonoBehaviour
+public class AIHit : MonoBehaviour
 {
-    public float moveSpeed;
-    float hitForce = 12;
-    public float shotSpread;
-    public Transform ball;
+    public Transform racquetHead;
     public Transform hitTarget;
-    public Transform AI;
     public Transform user;
-    Vector3 AIPlayerPosition;
-
+    public Transform ball;
+    public float shotSpread;
     ShotTypes shotTypes;
     Shot currentShot;
     public GameObject easyToggle;
     public GameObject mediumToggle;
     public GameObject hardToggle;
-
     // Start is called before the first frame update
     void Start()
     {
-        AIPlayerPosition = AI.position;         //set AI player position to AI start position
         shotTypes = GetComponent<ShotTypes>();  //initialise shotTypes
         currentShot = shotTypes.topSpin;       //set current shot to top spin
     }
@@ -33,28 +27,24 @@ public class BotScript : MonoBehaviour
     {
         if(easyToggle.GetComponent<Toggle>().isOn == true)                  //if easy difficulty selected
         {
-            moveSpeed = 3;
-            shotSpread = 2;
+            shotSpread = 1;
         }
         else if(mediumToggle.GetComponent<Toggle>().isOn == true)           //if medium difficulty selected
         {
-            moveSpeed = 4;
             shotSpread = 2;
         }
         else if(hardToggle.GetComponent<Toggle>().isOn == true)             //if hard difficulty selected
         {
-            moveSpeed = 6;
             shotSpread = 3;
         }
 
-        MoveAI();
-        if(ball.position.y > 1)
+         if(ball.position.y > 1)
         {
             currentShot = shotTypes.serve;          //if ball is above head, serve shot
         }
-        else if(ball.position.x < user.position.x)     
+        else if(ball.position.x < 0)     
         {
-            currentShot = shotTypes.backSpin;       //if ball is to the left of AI, flat shot
+            currentShot = shotTypes.backSpin;       //if ball is to the left of AI, back spin
         }
         else
         {
@@ -62,17 +52,12 @@ public class BotScript : MonoBehaviour
         }
     }
 
-    void MoveAI()
-    {
-        AIPlayerPosition.x = ball.position.x;       //set AI x position to ball x position
-        AI.position = Vector3.MoveTowards(AI.position, AIPlayerPosition, moveSpeed * Time.deltaTime);   //AI moves side to side in the direction of the ball
-    }
-
-    private void OnTriggerEnter(Collider other)
+    
+   private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Ball"))    //if other collides with ball
         {
-            Vector3 dir = hitTarget.position - AI.position;  //direction of the ball is the target minus where the ball is hit from
+            Vector3 dir = hitTarget.position - racquetHead.position;  //direction of the ball is the target minus where the ball is hit from
             if(user.position.x < 0)     //if user is on the left
             {
                 dir = dir + new Vector3(shotSpread, 0, 0);     //hit right
@@ -80,9 +65,8 @@ public class BotScript : MonoBehaviour
             {
                 dir = dir - new Vector3(shotSpread, 0, 0);      //else hit left
             }
-            other.GetComponent<Rigidbody>().velocity = dir.normalized * hitForce + new Vector3(0, 5, 0);    //the velocity of the ball
+            other.GetComponent<Rigidbody>().velocity = dir.normalized * currentShot.shotPower + new Vector3(0, currentShot.upForce, 0);    //the velocity of the ball
             ball.GetComponent<BallScript>().lastHitBy = "AI";   //set ball was last hit by to AI
         }
     }
 }
-*/

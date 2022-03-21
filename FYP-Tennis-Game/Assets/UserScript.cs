@@ -85,23 +85,21 @@ public class UserScript : MonoBehaviour
             {
                 other.GetComponent<Rigidbody>().velocity = dir.normalized * currentShot.shotPower + new Vector3(0, currentShot.upForce, 0);    //the velocity of the ball
                 ball_rb.AddTorque(addBackSpin.normalized * 150 * Time.deltaTime, ForceMode.Impulse);    //add backspin to the ball
+                racquetHead.position = Vector3.MoveTowards(racquetHead.position, ball.position, 10f * Time.deltaTime);
             }
             else if(ballToUserPos.x > 0)
             {
                 other.GetComponent<Rigidbody>().velocity = dir.normalized * currentShot.shotPower + new Vector3(0, currentShot.upForce, 0);    //the velocity of the ball
                 ball_rb.AddTorque(addTopSpin.normalized * 150 * Time.deltaTime, ForceMode.Impulse);    //add topspin to the ball
+                racquetHead.position = Vector3.MoveTowards(racquetHead.position, ball.position, 10f * Time.deltaTime);
             }
             else
             {
                 other.GetComponent<Rigidbody>().velocity = dir.normalized * currentShot.shotPower + new Vector3(0, currentShot.upForce, 0);    //the velocity of the ball
+                racquetHead.position = Vector3.MoveTowards(racquetHead.position, ball.position, 10f * Time.deltaTime);
             }
             
             ball.GetComponent<BallScript>().lastHitBy = "user";   //set ball was last hit by to: user
         }
-    }
-
-    void flatShotTorque()
-    {
-
     }
 }

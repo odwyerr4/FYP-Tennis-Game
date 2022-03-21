@@ -10,6 +10,8 @@ TagManager:
   - AISide
   - UserSide
   - Net
+  - UserCollider
+  - AICollider
   layers:
   - Default
   - TransparentFX
