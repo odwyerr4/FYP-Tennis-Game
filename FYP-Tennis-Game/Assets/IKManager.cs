@@ -26,15 +26,15 @@ public class IKManager : MonoBehaviour
     float CalculateSlope(Joint joint)
     {
         float deltaTheta = 0.1f;        //constant used for changing angle
-        float distance1 = GetDistance(end.transform.position, ball.transform.position); //get distance between the racquet and ball
+        float distance1 = GetDistance(end.transform.position, ball.transform.position); //get current distance between the racquet and ball
 
         joint.Rotate(deltaTheta);       //rotate joint by deltaTheta
 
-        float distance2 = GetDistance(end.transform.position, ball.transform.position); //get distance between the racquet and ball
+        float distance2 = GetDistance(end.transform.position, ball.transform.position); //get distance between the racquet and ball after rotation
 
         joint.Rotate(-deltaTheta);      //rotate joint by -deltaTheta
 
-        return (distance2 - distance1) / deltaTheta;
+        return (distance2 - distance1) / deltaTheta;    //calculate slope
     }
 
     
@@ -56,7 +56,7 @@ public class IKManager : MonoBehaviour
 
         if(easyToggle.GetComponent<Toggle>().isOn == true)                  //if easy difficulty selected
         {
-            steps = 4;
+            steps = 3;
         }
         else if(mediumToggle.GetComponent<Toggle>().isOn == true)           //if medium difficulty selected
         {
@@ -64,18 +64,18 @@ public class IKManager : MonoBehaviour
         }
         else if(hardToggle.GetComponent<Toggle>().isOn == true)             //if hard difficulty selected
         {
-            steps = 8;
+            steps = 10;
         }
 
         for(int i = 0; i < steps; ++i){
-            if(GetDistance(end.transform.position, ball.transform.position) > threshold)
+            if(GetDistance(end.transform.position, ball.transform.position) > threshold)    //if distance is greater than the threshold
             {
-                Joint current = root;
-                while(current != null)
+                Joint current = root;       //set current joint to the root
+                while(current != null)      //while there is still a joint
                 {
-                    float slope = CalculateSlope(current);
-                    current.Rotate(-slope * rate);
-                    current = current.GetChild();
+                    float slope = CalculateSlope(current);      //get the slope from slope function
+                    current.Rotate(-slope * rate);              //rotate the joint by the slope times the rate at which rotations are done
+                    current = current.GetChild();               //set the next joint to the child of the current joint
                 }
             }
         }
