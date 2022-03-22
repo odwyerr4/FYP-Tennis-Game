@@ -19,7 +19,7 @@ public class AIHit : MonoBehaviour
     void Start()
     {
         shotTypes = GetComponent<ShotTypes>();  //initialise shotTypes
-        currentShot = shotTypes.topSpin;       //set current shot to top spin
+        currentShot = shotTypes.forehand;       //set current shot to top spin
     }
 
     // Update is called once per frame
@@ -44,11 +44,11 @@ public class AIHit : MonoBehaviour
         }
         else if(ball.position.x < 0)     
         {
-            currentShot = shotTypes.backSpin;       //if ball is to the left of AI, back spin
+            currentShot = shotTypes.backhand;       //if ball is to the left of AI, back spin
         }
         else
         {
-            currentShot = shotTypes.topSpin;        //if ball is on the right of AI, top spin
+            currentShot = shotTypes.forehand;        //if ball is on the right of AI, top spin
         }
     }
 

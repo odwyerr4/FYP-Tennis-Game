@@ -9,9 +9,6 @@ public class IKManager : MonoBehaviour
     public Joint mid1;   //middle joint
     public Joint mid2;   //middle joint
     public Joint end;   //end joint
-
-    //public GameObject target;   //sphere
-
     public float threshold = 0.05f;
     public float rate = 5f;
     public int steps;
@@ -19,29 +16,23 @@ public class IKManager : MonoBehaviour
     public GameObject easyToggle;
     public GameObject mediumToggle;
     public GameObject hardToggle;
-    ShotTypes shotTypes;
-    Shot currentShot;
     public Transform ball;
-    public Transform hitTarget;
-    public Transform user;
-    public Transform racquetHead;
 
     void Start()
     {
-        shotTypes = GetComponent<ShotTypes>();  //initialise shotTypes
-        currentShot = shotTypes.topSpin;       //set current shot to top spin
+        
     }
 
     float CalculateSlope(Joint joint)
     {
-        float deltaTheta = 0.1f;
-        float distance1 = GetDistance(end.transform.position, ball.transform.position);
+        float deltaTheta = 0.1f;        //constant used for changing angle
+        float distance1 = GetDistance(end.transform.position, ball.transform.position); //get distance between the racquet and ball
 
-        joint.Rotate(deltaTheta);
+        joint.Rotate(deltaTheta);       //rotate joint by deltaTheta
 
-        float distance2 = GetDistance(end.transform.position, ball.transform.position);
+        float distance2 = GetDistance(end.transform.position, ball.transform.position); //get distance between the racquet and ball
 
-        joint.Rotate(-deltaTheta);
+        joint.Rotate(-deltaTheta);      //rotate joint by -deltaTheta
 
         return (distance2 - distance1) / deltaTheta;
     }

@@ -8,11 +8,11 @@ public class Joint : MonoBehaviour
 
    public Joint GetChild()
    {
-       return child;
+       return child;    //returns child of a joint
    }
 
    public void Rotate(float angle)
    {
-       transform.Rotate(Vector3.up * angle);
+       transform.Rotate(Vector3.up * angle);    //rotate the joint by an angle
    }
 }

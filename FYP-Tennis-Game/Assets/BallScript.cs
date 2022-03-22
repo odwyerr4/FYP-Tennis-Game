@@ -45,13 +45,13 @@ public class BallScript : MonoBehaviour
 
             if(lastHitBy == "user")
             {
-                userScore++;
+                AIScore++;
                 bouncedOnAISide = false;
                 bouncedOnUserSide = false;
             }
             else if(lastHitBy == "AI")
             {
-                AIScore++;
+                userScore++;
                 bouncedOnAISide = false;
                 bouncedOnUserSide = false;
             }
@@ -121,7 +121,6 @@ public class BallScript : MonoBehaviour
                 bouncedOnAISide = false;
                 bouncedOnUserSide = false;
             }
-
             updateScores();
         }
     }

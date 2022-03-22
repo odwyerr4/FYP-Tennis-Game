@@ -8,7 +8,7 @@ public class UserScript : MonoBehaviour
     public Transform ball;
     public Transform user;
     public Transform racquetHead;
-    float moveSpeed = 3f;
+    float moveSpeed = 4f;
     ShotTypes shotTypes;
     Shot currentShot;
     Rigidbody ball_rb;
@@ -43,14 +43,13 @@ public class UserScript : MonoBehaviour
         {
             currentShot = shotTypes.serve;                          //set current shot to serve
             GetComponent<BoxCollider>().enabled = false;            //turn off collider to throw the ball up
-
-
         }
         else if(Input.GetKeyUp(KeyCode.C))                          //when C is released
         {
             currentShot = shotTypes.serve;
             ball.transform.position = user.position + new Vector3(0, 1.5f, 0); //throw the ball up
             GetComponent<BoxCollider>().enabled = true;                        //turn box collider back on
+            animator.Play("serve");                                            //play serve hit animation
         }
 
          Vector3 ballToUser = ball.position - user.position;                //get ball position relative to user
@@ -61,11 +60,11 @@ public class UserScript : MonoBehaviour
         }
         else if(ballToUser.x < 0)     
         {
-            currentShot = shotTypes.backSpin;       //if ball is to the left of user, flat shot
+            currentShot = shotTypes.backhand;       //if ball is to the left of user, backhand
         }
         else if(ballToUser.x > 0)
         {
-            currentShot = shotTypes.topSpin;        //if ball is on the right of user, top spin
+            currentShot = shotTypes.forehand;        //if ball is on the right of user, forehand
         }
     }
 

@@ -10,7 +10,7 @@ public class Shot
 }
 public class ShotTypes : MonoBehaviour
 {
-   public Shot topSpin;
-   public Shot backSpin;
+   public Shot forehand;
+   public Shot backhand;
    public Shot serve;
 }
