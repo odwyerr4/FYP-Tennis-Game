@@ -12,12 +12,14 @@ public class UserScript : MonoBehaviour
     ShotTypes shotTypes;
     Shot currentShot;
     Rigidbody ball_rb;
+    Animator animator; 
     
     // Start is called before the first frame update
     void Start()
     {
         shotTypes = GetComponent<ShotTypes>();  //initialise shotTypes
         currentShot = shotTypes.serve;          //set start shot to serve
+        animator = GetComponent<Animator>();    //initialise animator
     }
 
     // Update is called once per frame
@@ -81,22 +83,25 @@ public class UserScript : MonoBehaviour
         if(other.CompareTag("Ball"))    //if other collides with ball
         {
             Vector3 dir = aimTarget.position - user.position;  //direction of the ball is the target minus where the ball is hit from
-            if(ballToUserPos.x < 0)
+            if(ballToUserPos.x > 0)
             {
                 other.GetComponent<Rigidbody>().velocity = dir.normalized * currentShot.shotPower + new Vector3(0, currentShot.upForce, 0);    //the velocity of the ball
                 ball_rb.AddTorque(addBackSpin.normalized * 150 * Time.deltaTime, ForceMode.Impulse);    //add backspin to the ball
-                racquetHead.position = Vector3.MoveTowards(racquetHead.position, ball.position, 10f * Time.deltaTime);
+                //racquetHead.position = Vector3.MoveTowards(racquetHead.position, ball.position, 10f * Time.deltaTime);
+                animator.Play("fronthand");     //play fronthand animation
             }
-            else if(ballToUserPos.x > 0)
+            else if(ballToUserPos.x < 0)
             {
                 other.GetComponent<Rigidbody>().velocity = dir.normalized * currentShot.shotPower + new Vector3(0, currentShot.upForce, 0);    //the velocity of the ball
                 ball_rb.AddTorque(addTopSpin.normalized * 150 * Time.deltaTime, ForceMode.Impulse);    //add topspin to the ball
-                racquetHead.position = Vector3.MoveTowards(racquetHead.position, ball.position, 10f * Time.deltaTime);
+                //racquetHead.position = Vector3.MoveTowards(racquetHead.position, ball.position, 10f * Time.deltaTime);
+                animator.Play("backhand");     //play Backhand animation
             }
             else
             {
                 other.GetComponent<Rigidbody>().velocity = dir.normalized * currentShot.shotPower + new Vector3(0, currentShot.upForce, 0);    //the velocity of the ball
-                racquetHead.position = Vector3.MoveTowards(racquetHead.position, ball.position, 10f * Time.deltaTime);
+                //racquetHead.position = Vector3.MoveTowards(racquetHead.position, ball.position, 10f * Time.deltaTime);
+                //animator.Play("Serve");       //play serve animation
             }
             
             ball.GetComponent<BallScript>().lastHitBy = "user";   //set ball was last hit by to: user
