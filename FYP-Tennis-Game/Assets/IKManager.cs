@@ -17,6 +17,7 @@ public class IKManager : MonoBehaviour
     public GameObject mediumToggle;
     public GameObject hardToggle;
     public Transform ball;
+    public Transform racquetHead;
 
     void Start()
     {
@@ -56,7 +57,7 @@ public class IKManager : MonoBehaviour
 
         if(easyToggle.GetComponent<Toggle>().isOn == true)                  //if easy difficulty selected
         {
-            steps = 3;
+            steps = 4;
         }
         else if(mediumToggle.GetComponent<Toggle>().isOn == true)           //if medium difficulty selected
         {

@@ -13,6 +13,7 @@ public class UserScript : MonoBehaviour
     Shot currentShot;
     Rigidbody ball_rb;
     Animator animator; 
+    public AudioSource ballHit;
     
     // Start is called before the first frame update
     void Start()
@@ -50,6 +51,7 @@ public class UserScript : MonoBehaviour
             ball.transform.position = user.position + new Vector3(0, 1.5f, 0); //throw the ball up
             GetComponent<BoxCollider>().enabled = true;                        //turn box collider back on
             animator.Play("serve");                                            //play serve hit animation
+            ballHit.Play();                                                    //play hit sound
         }
 
          Vector3 ballToUser = ball.position - user.position;                //get ball position relative to user
@@ -88,6 +90,7 @@ public class UserScript : MonoBehaviour
                 ball_rb.AddTorque(addBackSpin.normalized * 150 * Time.deltaTime, ForceMode.Impulse);    //add backspin to the ball
                 //racquetHead.position = Vector3.MoveTowards(racquetHead.position, ball.position, 10f * Time.deltaTime);
                 animator.Play("fronthand");     //play fronthand animation
+                ballHit.Play();                 //play sound
             }
             else if(ballToUserPos.x < 0)
             {
@@ -95,6 +98,7 @@ public class UserScript : MonoBehaviour
                 ball_rb.AddTorque(addTopSpin.normalized * 150 * Time.deltaTime, ForceMode.Impulse);    //add topspin to the ball
                 //racquetHead.position = Vector3.MoveTowards(racquetHead.position, ball.position, 10f * Time.deltaTime);
                 animator.Play("backhand");     //play Backhand animation
+                ballHit.Play();                //play sound
             }
             else
             {
