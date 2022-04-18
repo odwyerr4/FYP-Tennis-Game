@@ -10,7 +10,7 @@ public class IKManager : MonoBehaviour
     public Joint mid2;   //middle joint
     public Joint end;   //end joint
     public float threshold = 0.05f;
-    public float rate = 5f;
+    public float rate;
     public int steps;
     public float shotSpread;
     public GameObject easyToggle;
@@ -57,15 +57,15 @@ public class IKManager : MonoBehaviour
 
         if(easyToggle.GetComponent<Toggle>().isOn == true)                  //if easy difficulty selected
         {
-            steps = 4;
+            rate = 10;
         }
         else if(mediumToggle.GetComponent<Toggle>().isOn == true)           //if medium difficulty selected
         {
-            steps = 6;
+            rate = 25;
         }
         else if(hardToggle.GetComponent<Toggle>().isOn == true)             //if hard difficulty selected
         {
-            steps = 10;
+            rate = 60;
         }
 
         for(int i = 0; i < steps; ++i){

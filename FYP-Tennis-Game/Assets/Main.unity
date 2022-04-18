@@ -762,7 +762,6 @@ GameObject:
   - component: {fileID: 338936862}
   - component: {fileID: 338936861}
   - component: {fileID: 338936860}
-  - component: {fileID: 338936859}
   - component: {fileID: 338936863}
   - component: {fileID: 338936864}
   m_Layer: 0
@@ -772,20 +771,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!136 &338936859
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 338936858}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!23 &338936860
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1010,6 +995,7 @@ MonoBehaviour:
   AIScore: 0
   userGameScore: 0
   AIGameScore: 0
+  scoreDiff: 0
   user: {fileID: 960777194}
   bouncedOnAISide: 0
   bouncedOnUserSide: 0
@@ -1086,7 +1072,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 437456404}
   m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0.011, y: -0.237, z: 0.042}
+  m_LocalPosition: {x: 0.012, y: -0.237, z: 0.091}
   m_LocalScale: {x: 0.40000004, y: 0.025, z: 0.5}
   m_Children:
   - {fileID: 1850129131}
@@ -1153,7 +1139,6 @@ GameObject:
   - component: {fileID: 446569694}
   - component: {fileID: 446569699}
   - component: {fileID: 446569698}
-  - component: {fileID: 446569697}
   - component: {fileID: 446569696}
   - component: {fileID: 446569695}
   m_Layer: 0
@@ -1208,20 +1193,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   child: {fileID: 1048289814}
---- !u!136 &446569697
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 446569693}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!23 &446569698
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1649,7 +1620,6 @@ GameObject:
   - component: {fileID: 695829267}
   - component: {fileID: 695829270}
   - component: {fileID: 695829269}
-  - component: {fileID: 695829268}
   m_Layer: 0
   m_Name: Arm
   m_TagString: Untagged
@@ -1671,19 +1641,6 @@ Transform:
   m_Father: {fileID: 446569694}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &695829268
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 695829266}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.2192299, y: 1, z: 8.035605}
-  m_Center: {x: 0.9070333, y: 6.8849955e-15, z: -0.53272045}
 --- !u!23 &695829269
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2609,7 +2566,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1059980633}
   m_LocalRotation: {x: -0, y: -0.71303076, z: -0, w: 0.70113283}
-  m_LocalPosition: {x: -1.52, y: 0.62, z: -0.02}
+  m_LocalPosition: {x: -1.52, y: 0.62, z: -0.04}
   m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_Children:
   - {fileID: 437456405}
@@ -3839,7 +3796,6 @@ GameObject:
   - component: {fileID: 1945428333}
   - component: {fileID: 1945428336}
   - component: {fileID: 1945428335}
-  - component: {fileID: 1945428334}
   m_Layer: 0
   m_Name: Arm
   m_TagString: Untagged
@@ -3861,19 +3817,6 @@ Transform:
   m_Father: {fileID: 338936862}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1945428334
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1945428332}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1945428335
 MeshRenderer:
   m_ObjectHideFlags: 0

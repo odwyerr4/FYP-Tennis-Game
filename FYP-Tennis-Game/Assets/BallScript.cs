@@ -12,6 +12,7 @@ public class BallScript : MonoBehaviour
     public int AIScore;
     public int userGameScore;
     public int AIGameScore;
+    public int scoreDiff;
     public Transform user;
     public bool bouncedOnAISide;
     public bool bouncedOnUserSide;
@@ -31,22 +32,27 @@ public class BallScript : MonoBehaviour
 
     void Update()
     {
-        if(userScore > 45)                             //if user wins
+        if(userScore > AIScore)
+        {
+            scoreDiff = userScore - AIScore;
+        }else if(AIScore > userScore)
+        {
+            scoreDiff = AIScore - userScore;
+        }else
+        {
+            scoreDiff = 0;
+        }
+
+        if(userScore > 40 && scoreDiff > 15)                             //if user wins
         {
             userScore = 0;
             AIScore = 0;
-            userGameScore++;
-            userScoreText.text = "User: " + userScore + " (" + userGameScore + ")";      //user is winner
-            AIScoreText.text = "AI: " + AIScore + " (" + AIGameScore + ")";          
-            updateScores();
-        }else if(AIScore > 45)                      //if AI wins
+            userGameScore++;                        //increase game wins    
+        }else if(AIScore > 40 && scoreDiff > 15)                      //if AI wins
         {
             userScore = 0;
             AIScore = 0;
-            AIGameScore++;
-            userScoreText.text = "User: Loser";     
-            AIScoreText.text = "AI: Winner";            //AI is winner
-            updateScores();
+            AIGameScore++;                          //increase game wins
         }
         updateScores();
     }
@@ -75,13 +81,25 @@ public class BallScript : MonoBehaviour
 
             if(lastHitBy == "user")
             {
-                userScore = userScore + 15;
+                if (userScore > 29)
+                {
+                    userScore = userScore + 10;
+                }else
+                {
+                    userScore = userScore + 15;
+                }
                 bouncedOnAISide = false;
                 bouncedOnUserSide = false;
             }
             else if(lastHitBy == "AI")
             {
-                AIScore = AIScore + 15;
+                if (AIScore > 29)
+                {
+                    AIScore = AIScore + 10;
+                }else
+                {
+                    AIScore = AIScore + 15;
+                }
                 bouncedOnAISide = false;
                 bouncedOnUserSide = false;
             }
@@ -97,25 +115,49 @@ public class BallScript : MonoBehaviour
             
             if((lastHitBy == "user") && (bouncedOnAISide == true))
             {
-                userScore = userScore + 15;
+                if (userScore > 29)
+                {
+                    userScore = userScore + 10;
+                }else
+                {
+                    userScore = userScore + 15;
+                }
                 bouncedOnAISide = false;
                 bouncedOnUserSide = false;
             }
             else if((lastHitBy == "user") && (bouncedOnAISide == false))
             {
-                AIScore = AIScore + 15;
+                if (AIScore > 29)
+                {
+                    AIScore = AIScore + 10;
+                }else
+                {
+                    AIScore = AIScore + 15;
+                }
                 bouncedOnAISide = false;
                 bouncedOnUserSide = false;
             }
             else if((lastHitBy == "AI") && (bouncedOnUserSide == true))
             {
-                AIScore = AIScore + 15;
+                if (AIScore > 29)
+                {
+                    AIScore = AIScore + 10;
+                }else
+                {
+                    AIScore = AIScore + 15;
+                }
                 bouncedOnAISide = false;
                 bouncedOnUserSide = false;
             }
             else if((lastHitBy == "AI") && (bouncedOnUserSide == false))
             {
-                userScore = userScore + 15;
+                if (userScore > 29)
+                {
+                    userScore = userScore + 10;
+                }else
+                {
+                    userScore = userScore + 15;
+                }
                 bouncedOnAISide = false;
                 bouncedOnUserSide = false;
             }

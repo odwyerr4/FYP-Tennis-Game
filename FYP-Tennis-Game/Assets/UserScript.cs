@@ -73,6 +73,7 @@ public class UserScript : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Vector3 ballToUserPos = ball.position - user.position;                //get ball position relative to user
+
         Vector3 addTopSpin = aimTarget.position - user.position;           //get direction of the shot     
         addTopSpin.y = 0;                                                  //set y vector to 0
         addTopSpin = Quaternion.Euler(0, 90, 0) * addTopSpin;              //rotate y vector 90 degrees
@@ -80,23 +81,21 @@ public class UserScript : MonoBehaviour
         Vector3 addBackSpin = aimTarget.position - user.position;           //get direction of the shot
         addBackSpin.y = 0;                                                  //set y vector to 0
         addBackSpin = Quaternion.Euler(0, -90, 0) * addBackSpin;            //rotate y vector -90 degrees
-
+    
         if(other.CompareTag("Ball"))    //if other collides with ball
         {
             Vector3 dir = aimTarget.position - user.position;  //direction of the ball is the target minus where the ball is hit from
             if(ballToUserPos.x > 0)
             {
                 other.GetComponent<Rigidbody>().velocity = dir.normalized * currentShot.shotPower + new Vector3(0, currentShot.upForce, 0);    //the velocity of the ball
-                ball_rb.AddTorque(addBackSpin.normalized * 150 * Time.deltaTime, ForceMode.Impulse);    //add backspin to the ball
-                //racquetHead.position = Vector3.MoveTowards(racquetHead.position, ball.position, 10f * Time.deltaTime);
+                ball_rb.AddTorque(addTopSpin.normalized * 150 * Time.deltaTime, ForceMode.Impulse);    //add topspin to the ball
                 animator.Play("fronthand");     //play fronthand animation
                 ballHit.Play();                 //play sound
             }
             else if(ballToUserPos.x < 0)
             {
                 other.GetComponent<Rigidbody>().velocity = dir.normalized * currentShot.shotPower + new Vector3(0, currentShot.upForce, 0);    //the velocity of the ball
-                ball_rb.AddTorque(addTopSpin.normalized * 150 * Time.deltaTime, ForceMode.Impulse);    //add topspin to the ball
-                //racquetHead.position = Vector3.MoveTowards(racquetHead.position, ball.position, 10f * Time.deltaTime);
+                ball_rb.AddTorque(addBackSpin.normalized * 150 * Time.deltaTime, ForceMode.Impulse);    //add backspin to the ball
                 animator.Play("backhand");     //play Backhand animation
                 ballHit.Play();                //play sound
             }
